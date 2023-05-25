@@ -1,6 +1,8 @@
 //Se requiere la conexion a la bd porque desde aqui se usaran los query
 const pool = require('../db');
 const { verify } = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 
 const allrows = async (req, res, next) => {
     try {
@@ -80,11 +82,39 @@ const taskdetails = async (req, res) => {
     return res.json(result.rows[0]);
 
 };
+const imagen = async (req, res) => {
+
+    let ext = path.extname("black-spiderman_2752x1548_xtrafondos.com.jpg");
+    let fd = fs.createReadStream(path.join(__dirname, "../Assets/Wallpaper/", "black-spiderman_2752x1548_xtrafondos.com.jpg"));
+    res.setHeader("Content-Type", "image/" + ext.substr(1));
+    fd.pipe(res);
+
+    //res.download('SRC/Assets/Wallpaper/Fri7zeuWIAA8Z7m.jpg'); para descargar xd 
+}
+
+const pdf = async (req, res) => {
+    var data = fs.readFileSync('SRC/Assets/Wallpaper/CV_Raul_Coello_CV.pdf');
+    res.contentType("application/pdf");
+    res.send(data);
+}
+
+const word = async (req, res) => {
+    //var data = fs.readFileSync('SRC/Assets/Wallpaper/Certificado.docx');
+    //res.contentType("application/word");
+    //res.send(data);
+    res.download('SRC/Assets/Wallpaper/Certificado.docx');
+
+}
+
+
 //Se exportan los controladores en forma de objeto
 module.exports = {
     allrows,
     createtask,
     updatetask,
     deletetask,
-    taskdetails
+    taskdetails,
+    imagen,
+    pdf,
+    word
 };
