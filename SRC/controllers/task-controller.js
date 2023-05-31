@@ -3,6 +3,9 @@ const pool = require('../db');
 const { verify } = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const { request } = require('http');
+const multer = require('multer')
+const upload = multer({ dest: '../archivos' });
 
 const allrows = async (req, res, next) => {
     try {
@@ -106,6 +109,12 @@ const word = async (req, res) => {
 
 }
 
+const uploadfile = async (req, res) => {
+    console.log(req.file);
+
+    res.json("ssasd");
+}
+
 
 //Se exportan los controladores en forma de objeto
 module.exports = {
@@ -116,5 +125,6 @@ module.exports = {
     taskdetails,
     imagen,
     pdf,
-    word
+    word,
+    uploadfile
 };
